@@ -1,0 +1,26 @@
+{
+  "name": "todo-app-main",
+  "version": "1.0.0",
+  "description": "Project Developed using tools as gulp, SASS and Javascript language",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "module",
+    "url": "npm rm --global gulp"
+  },
+  "author": "Morales Ozuna",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^5.0.1",
+    "gulp-sass": "^6.0.1",
+    "gulp-webp": "^5.1.0",
+    "imagemin": "^9.0.1",
+    "imagemin-webp": "^8.0.0",
+    "sass": "^1.92.1"
+  },
+  "dependencies": {
+    "imagemin-avif": "^0.1.6"
+  }
+}
