@@ -1,0 +1,27 @@
+@use 'variables' as v;
+
+
+html{
+  font-size: 62.5%;
+}
+
+
+.content{
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* apply a natural box layout model to all elements, but allowing components to change */
+body{
+    font-size: 1.6rem;
+    font-family: v.$fontFamily;
+    margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}

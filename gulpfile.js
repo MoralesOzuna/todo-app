@@ -36,8 +36,8 @@ async function optimizateImages(){
     await imagemin(['src/images/*.{jpg,png}'],{
         destination: 'build/images',
         plugins: [
-            imageminWebp({quality: 50}),
-            imageminAvif({quality: 50})
+            imageminWebp({quality: 80}),
+            imageminAvif({quality: 80})
         ]
     })
 }

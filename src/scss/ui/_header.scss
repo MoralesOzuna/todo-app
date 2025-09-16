@@ -1,0 +1,44 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.background{
+    background-image: image-set(
+        url("../images/bg-mobile-dark.jpg") type("image/jpeg"),
+        url("../images/bg-mobile-dark.webp") type("image/webp"),
+        url("../src/images/bg-mobile-dark.jpg") type("image/jpeg")
+    );
+    height: 30rem;
+    width: 100%;
+    background-position: center center;
+
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+.background{
+    @include m.desktop{
+         background-image: image-set(
+        url("../images/bg-desktop-dark.jpg") type("image/jpeg"),
+        url("../images/bg-desktop-dark.webp") type("image/webp"),
+        url("../src/images/bg-desktop-dark.jpg") type("image/jpeg")
+    );
+    }
+}
+
+
+.logo__title{
+    margin: 0;
+    text-transform: uppercase;
+    color: v.$veryLightGray;
+    letter-spacing: 2rem;
+
+
+}
+
+.background__content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 5rem;
+}
+
