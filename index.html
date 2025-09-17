@@ -70,22 +70,66 @@
     </section>
   </header>
 
-  Todo
 
-  <!-- Add dynamic number --> items left
+  <main class="main">
+    <section class="todo content">
 
-  All
-  Active 
-  Completed
+      <form class="task-form">
+        <input type="checkbox" id="task-form" class="task-form__checkbox">
+        <input for = "task-form" type="text" name="task" id="task" placeholder="Create a new todo..." class="task-form__input">
+      </form>
 
-  Clear Completed
+      <ul class="task-list">
+        <li class="task-list__element" >
+          <input type="checkbox" id="task-1" class="task-form__checkbox">
+          <label class="task-list__label" for="task-1">Complete online Javascript course</label>
+        </li>
 
-  Drag and drop to reorder list
 
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
+        <li class="task-list__element"  >
+          <input type="checkbox" id="task-2" class="task-form__checkbox">
+          <label class="task-list__label for="task-2">Jog around the park 3x</label>
+        </li>
+
+         <li class="task-list__element"  >
+          <input type="checkbox" id="task-3" class="task-form__checkbox">
+          <label class="task-list__label for="task-3">10 minutes meditation</label>
+        </li>
+
+        <li class="task-list__element"  >
+          <input type="checkbox" id="task-4" class="task-form__checkbox">
+          <label class="task-list__label for="task-4">Read for 1 hour</label>
+        </li>
+
+
+        <li class="task-list__element"  >
+          <input type="checkbox" id="task-5" class="task-form__checkbox">
+          <label class="task-list__label for="task-5">Pick up groceries</label>
+        </li>
+
+         <li class="task-list__element"  >
+          <input type="checkbox" id="task-6" class="task-form__checkbox">
+          <label class="task-list__label for="task-6">Complete Todo App on frontend mentor</label>
+        </li>
+
+        <li class="task-list__element summary">
+          <p class="summary__items">5 items left</p>
+          <p class="summary__clear">Clear Completed</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="filters content">
+      <p class="filters__all">All</p>
+      <p class="filters__active">Active</p>
+      <p class="filters__completed">Completed</p>
+    </section>
+
+
+    <p class="todo__reorder">Drag and drop to reorder list</p>
+
+
+  </main>
 
   <script src="js/app.js"></script>
 </body>

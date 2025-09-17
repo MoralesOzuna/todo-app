@@ -1,0 +1,113 @@
+@use '../base/variables' as v;
+
+body{
+    background-color: v.$veryDarkBlue;   
+}
+
+.task-form {
+    background-color: v.$veryDarkDesaturatedBlue; 
+    border-radius: .5rem;
+    margin-top: -10rem;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    
+    &__input {
+        background-color: v.$veryDarkDesaturatedBlue;
+        color: v.$lightGrayishBlue;
+        border: none;
+        padding: 2rem;
+        text-align: left;
+        width: 90%;
+        outline: none;
+    }
+}
+
+.task-list{
+    border-radius: .5rem;
+
+    list-style: none;
+    padding: 0;
+    background-color: v.$veryDarkDesaturatedBlue;
+  /*   display: flex;
+    flex-direction: column;
+    justify-content: center; */
+        &__element{
+            padding: 2.5rem 2rem;
+            display: flex;
+            align-items: center;
+             border-bottom: 1px solid v.$veryDarkGrayishBlue;
+        }
+
+        &__label{
+            color: v.$lightGrayishBlue;
+            border: none;
+            text-align: left;
+            width: 90%;
+            padding-left: 2rem;
+           
+            
+
+        
+        }
+
+}
+
+.task-form__checkbox{
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: .1px solid v.$lightGrayishBlue;
+    cursor: pointer;
+    position: relative; 
+
+    
+
+}
+.task-form__checkbox:checked{
+   background-image: linear-gradient(180deg, hsl(192, 100%, 67%) 50%, hsl(280, 87%, 65%) 100%);
+            
+};
+
+.summary{ 
+    display: flex;
+    justify-content: space-between;
+    &__items, &__clear{
+        color: v.$veryDarkGrayishBlue;
+        display: block;
+    }
+    &__items{
+        
+    }
+    &__clear{
+
+    }
+}
+
+.filters{
+     background-color: v.$veryDarkDesaturatedBlue; 
+     display: flex;
+     justify-content: space-evenly;
+     border-radius: .5rem;
+     &__all, &__active, &__completed{
+        color: v.$darkGrayishBlue;
+        font-weight: v.$font700;
+     }
+    &__all{
+        color: v.$brightBlue;
+    }
+    &__active{
+
+    }
+    &__completed{
+
+    }
+}
+
+.todo__reorder{
+    margin: 7rem 0;
+    text-align: center;
+    color: v.$darkGrayishBlue;
+}
+

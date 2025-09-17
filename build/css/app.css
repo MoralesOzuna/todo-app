@@ -384,7 +384,7 @@ html {
 }
 
 .content {
-  width: 95%;
+  width: 90%;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -406,7 +406,7 @@ html {
 
 .background {
   background-image: image-set(url("../images/bg-mobile-dark.jpg") type("image/jpeg"), url("../images/bg-mobile-dark.webp") type("image/webp"), url("../src/images/bg-mobile-dark.jpg") type("image/jpeg"));
-  height: 30rem;
+  height: 27rem;
   width: 100%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -430,5 +430,91 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 5rem;
+  padding-top: 7rem;
+}
+
+body {
+  background-color: hsl(235, 21%, 11%);
+}
+
+.task-form {
+  background-color: hsl(235, 24%, 19%);
+  border-radius: 0.5rem;
+  margin-top: -10rem;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+}
+.task-form__input {
+  background-color: hsl(235, 24%, 19%);
+  color: hsl(234, 39%, 85%);
+  border: none;
+  padding: 2rem;
+  text-align: left;
+  width: 90%;
+  outline: none;
+}
+
+.task-list {
+  border-radius: 0.5rem;
+  list-style: none;
+  padding: 0;
+  background-color: hsl(235, 24%, 19%);
+  /*   display: flex;
+    flex-direction: column;
+    justify-content: center; */
+}
+.task-list__element {
+  padding: 2.5rem 2rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid hsl(233, 14%, 35%);
+}
+.task-list__label {
+  color: hsl(234, 39%, 85%);
+  border: none;
+  text-align: left;
+  width: 90%;
+  padding-left: 2rem;
+}
+
+.task-form__checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 0.1px solid hsl(234, 39%, 85%);
+  cursor: pointer;
+  position: relative;
+}
+
+.task-form__checkbox:checked {
+  background-image: linear-gradient(180deg, hsl(192, 100%, 67%) 50%, hsl(280, 87%, 65%) 100%);
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+}
+.summary__items, .summary__clear {
+  color: hsl(233, 14%, 35%);
+  display: block;
+}
+.filters {
+  background-color: hsl(235, 24%, 19%);
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 0.5rem;
+}
+.filters__all, .filters__active, .filters__completed {
+  color: hsl(234, 11%, 52%);
+  font-weight: 700;
+}
+.filters__all {
+  color: hsl(220, 98%, 61%);
+}
+.todo__reorder {
+  margin: 7rem 0;
+  text-align: center;
+  color: hsl(234, 11%, 52%);
 }
