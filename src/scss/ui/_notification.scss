@@ -1,0 +1,42 @@
+@use '../base/variables' as v;
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; transform: translateY(-20px); }
+  20%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+.notification.show{
+      display: block;
+    animation: fadeInOut 3s forwards;
+}
+
+
+.todo{
+    position: relative;
+}
+.error{
+    background-color: v.$veryDarkBlue;
+}
+.errorText{
+    color: v.$veryLightGray;
+}
+.notification{
+    position: absolute;
+    margin: 0 auto;
+    border-radius: 1rem;
+    width: 30%;
+    top: 30px;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 2rem 1rem;
+    opacity: 0.8;
+
+    &__text{
+
+       
+    
+        text-align: center;
+    }
+}

@@ -437,9 +437,12 @@ body {
   background-color: hsl(235, 21%, 11%);
 }
 
-.task-form {
+.task-form, .task-list {
   background-color: hsl(235, 24%, 19%);
   border-radius: 0.5rem;
+}
+
+.task-form {
   margin-top: -10rem;
   padding: 0 2rem;
   display: flex;
@@ -456,13 +459,8 @@ body {
 }
 
 .task-list {
-  border-radius: 0.5rem;
   list-style: none;
   padding: 0;
-  background-color: hsl(235, 24%, 19%);
-  /*   display: flex;
-    flex-direction: column;
-    justify-content: center; */
 }
 .task-list__element {
   padding: 2.5rem 2rem;
@@ -478,7 +476,7 @@ body {
   padding-left: 2rem;
 }
 
-.task-form__checkbox {
+.checkbox {
   appearance: none;
   width: 20px;
   height: 20px;
@@ -488,7 +486,7 @@ body {
   position: relative;
 }
 
-.task-form__checkbox:checked {
+.checkbox:checked {
   background-image: linear-gradient(180deg, hsl(192, 100%, 67%) 50%, hsl(280, 87%, 65%) 100%);
 }
 
@@ -517,4 +515,55 @@ body {
   margin: 7rem 0;
   text-align: center;
   color: hsl(234, 11%, 52%);
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+.notification.show {
+  display: block;
+  animation: fadeInOut 3s forwards;
+}
+
+.todo {
+  position: relative;
+}
+
+.error {
+  background-color: hsl(235, 21%, 11%);
+}
+
+.errorText {
+  color: hsl(0, 0%, 98%);
+}
+
+.notification {
+  position: absolute;
+  margin: 0 auto;
+  border-radius: 1rem;
+  width: 30%;
+  top: 30px;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 2rem 1rem;
+  opacity: 0.8;
+}
+.notification__text {
+  text-align: center;
 }
