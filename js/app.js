@@ -1,15 +1,16 @@
-
-
 const taskForm = document.querySelector('.task-form');
 const taskInput = document.querySelector('.task-form__input');
 const todoContainer = document.querySelector('.todo');
-const taskList = document.querySelector('.task-list');
+const clearButton = document.querySelector('.summary__clear');
+let taskList;
+let totalItems = 0;
 let DB;
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
     crearDB();
-
+    getTask();
+    
 
     taskForm.addEventListener('submit', (e)=>{
         e.preventDefault();
@@ -22,19 +23,61 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const task = taskInput.value;
 
         //Creamos el objeto con la informacion
-
         const activities = {
             id: '',
-            task
+            task,
+            completed: false
         }
         
         activities.id = Date.now();
-        console.log(activities);
-
         createTask(activities);
+       
+    })
+
+    clearButton.addEventListener('click', () =>{
+        deleteTasks();
     })
 })
 
+
+function deleteTasks(){
+
+    //Obtengo los task list element // COMPLETED
+    //Accedo al checkbox // COMPLETED
+    //verifico si el checkbox esta activo //COMPLETED
+    //Si esta activo saco el id //Completed
+    //lo comparo con los id de la indexeddb
+    //elimino los id
+    let taskList2 = document.querySelectorAll('.task-list__element:not(.summary)');
+
+    taskList2.forEach(element =>{
+        const checkbox = element.querySelector('input[type="checkbox"]');
+        
+        if(checkbox.checked){
+            const idCleaned = parseInt(checkbox.id.replace('task-', ''));
+            const transaction = DB.transaction(['todo'], 'readwrite');
+            const objectStore = transaction.objectStore('todo');
+
+            objectStore.delete(idCleaned);
+
+            transaction.onerror = function(){
+                console.log('Algo no salio bien');
+            } 
+
+            transaction.oncomplete = function(){
+                console.log('Se pudo');
+                taskList.innerHTML = '';
+        
+                getTask();
+                
+            }
+
+        }
+
+    })
+}
+
+//Agregamos tarea del input al objectStore
 function createTask(activities){
     const transaction = DB.transaction(['todo'], 'readwrite');
     const objectStore = transaction.objectStore('todo');
@@ -47,11 +90,84 @@ function createTask(activities){
     }
     transaction.oncomplete = function(){
         printMessage('Activity added', 'error');
+
+        taskList.innerHTML = '';
+        getTask();
     }
 }
 
+//Obtenemos los datos del IndexDb y los mostramos en pantalla
+function getTask(){
+    //open o create the database "crm" if it doesn't exist
+    const abrirConexion = window.indexedDB.open('todo', 1);
 
+    //If something goes wrong
+    abrirConexion.onerror = function(){
+        printMessage(`There's something bad`, 'error');
+    }
 
+    //If the connection is successfully
+    abrirConexion.onsuccess = function(){
+        //Agregamos padre UL al codigo (Solo una vez)
+        if(!taskList){
+
+            taskList = document.createElement('UL');
+            taskList.classList.add('task-list');
+            todoContainer.insertBefore(taskList, document.querySelector('.summary') );
+        }
+        DB = abrirConexion.result;
+
+        //Create an only read transaction
+        const objectStore = DB.transaction('todo').objectStore('todo');
+
+        //Open a "cursor" to read every data saved in the localStorage
+        objectStore.openCursor().onsuccess = function(e){
+            // El cursor apunta al registro actual
+            const cursor = e.target.result;
+        
+            if(cursor){
+                // cursor.value es el objeto almacenado en IndexedDB
+                const  {task, id} = cursor.value;
+
+                const taskListElement = document.createElement('LI');
+                taskListElement.classList.add('task-list__element');
+
+                const checkbox = document.createElement('INPUT');
+                checkbox.type = "checkbox";
+                checkbox.id = `task-${id}`;
+                checkbox.classList.add('checkbox');
+             
+                const label = document.createElement('LABEL');
+                label.classList.add('task-list__label');
+                label.htmlFor = `task-${id}`
+             
+                label.classList.add('task-list__label');
+                label.textContent = `${task}`;
+                taskList.appendChild(taskListElement);
+                taskListElement.appendChild(checkbox);
+                taskListElement.appendChild(label);
+
+                
+                if(cursor.value.completed){
+                    checkbox.checked = true;
+                } else{
+                    checkbox.checked = false;
+                }
+          
+                
+                //cursor.continue() avanza al siguiente registro
+                cursor.continue();
+             
+            } else{
+                printMessage('All Data Loaded', 'success');   
+                   itemsCounter();    
+            }
+            
+   
+        }
+       
+    }
+}
 
 function crearDB(){
     const crearDB = window.indexedDB.open('todo', 1); //Abre o crea si no existe la DB. 1 Es la version de la DB
@@ -78,58 +194,15 @@ function crearDB(){
 
     // 'keyPath: id' indica que el campo 'id' será la clave primaria
     // 'autoIncrement: true' genera IDs automáticos si no los pasamos
-     const objectStore = db.createObjectStore('todo', {keyPath: 'id', autoincrement: true});
+     const objectStore = db.createObjectStore('todo', {keyPath: 'id'});
 
-     objectStore.createIndex('activity', 'activity',  {unique: true});
+     objectStore.createIndex('task', 'task',  {unique: true});
      objectStore.createIndex('id', 'id', {unique: true});
 
 
      console.log('DB Lista y creada')
 
     }
-
-    function saveActivities(){
-        //Abre (o crea si no existe) la base de datos todo en version 1
-        const openConnection = indexedDB.open('todo', 1);
-
-        openConnection.onerror = function(){
-            console.log('Existe un error')
-        }
-
-        openConnection.onsuccess = function(){
-            //Guardamos la referencia de la base abierta en DB
-            DB = openConnection.result;        
-        }
-
-       /*  openConnection.onupgradeneeded = function(){
-            const 
-        } */
-    }
-
-   /*  function getActivities(){
-        // Abre (o crea si no existe) la base de datos "crm" en versión 1
-        const openConnection = window.indexedDB.open('todo', 1); 
-
-        openConnection.onerror = function(){
-            console.log('Hubo un error');
-        }
-
-        openConnection.onsuccess = function(){
-            //Guardamos la referencia de la base abierta en DB
-            DB = abrirConexion.result;
-
-            //Creamos una transaccion de solo lectura sobre el store "todo"
-
-            const objectStore = DB.transaction('todo').objectStore('todo');
-
-            //Abrimos un cursor para recorrer todos los registros del store
-            objectStore.openCursor().onsuccess = function(e){
-                //El cursor apunto al registro actual
-            }
-        }
-
-        
-    } */
 }
 
 function printMessage(message, type){
@@ -159,15 +232,91 @@ function printMessage(message, type){
     } else{
         return;
     }
-   
+}
 
+function itemsCounter(){
 
+    const taskListElements = document.querySelectorAll('.task-list__element:not(.summary)');
+    const countSpan = document.querySelector('.summary__items--count');
+    
+    // Contar cuántos checkboxes NO están marcados
+    let count = 0;
+    taskListElements.forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        if (checkbox && !checkbox.checked) {
+            count++;
+        }
+    });
 
+    // Actualizamos el texto
+    countSpan.textContent = count;
+
+    taskListElements.forEach(listElement =>{
+
+        listElement.firstChild.addEventListener('change', (e) =>{
   
+            if(e.target.checked){
+                const transaction = DB.transaction(['todo'], 'readwrite');
+                const objectStore = transaction.objectStore('todo');
+
+                objectStore.openCursor().onsuccess = function(e){
+                    const cursor = e.target.result;
+                    
+
+                    if(cursor){
+                        const dbId = cursor.value.id;
+                        const idCleaned = parseInt(listElement.firstChild.id.replace('task-', ''));
+                    
+                        if(dbId === idCleaned){
+                            cursor.value.completed = true;
+                            console.log('Coincidencia encontrada: ', cursor.value);
+                            cursor.update(cursor.value);
+                        }
+                           cursor.continue()
+                    }   
+                }
+            } else{
+            
+                const transaction = DB.transaction(['todo'], 'readwrite');
+                const objectStore = transaction.objectStore('todo');
+
+                objectStore.openCursor().onsuccess = function(e){
+                    const cursor = e.target.result;
+                
+                    if(cursor){
+                        const dbId = cursor.value.id;
+                        const idCleaned = parseInt(listElement.firstChild.id.replace('task-', ''));
+
+
+                         if(dbId === idCleaned){
+                            cursor.value.completed = false;
+                            console.log('Falso de nuevo : ', cursor.value);
+                            cursor.update(cursor.value);
+                        }
+                            cursor.continue();
+                    }
+             
+                }
+              
+            }
+              itemsCounter();
+      
+        })
+        
+    })
+    
+
+    
+
+
+
+
+}  
 
 
     
 
 
+    
  
-}
+

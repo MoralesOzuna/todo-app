@@ -75,47 +75,20 @@
     <section class="todo content">
 
       <form class="task-form">
+        <label for="task-form" class="task-form__label">Selector</label>
         <input type="checkbox" id="task-form" class="checkbox">
+
+        <label class="task-form__label" for="task">To create a new todo</label>
         <input for = "task-form" type="text" name="task" id="task" placeholder="Create a new todo..." class="task-form__input">
       </form>
 
-      <ul class="task-list">
-        <li class="task-list__element" >
-          <input type="checkbox" id="task-1" class="checkbox">
-          <label class="task-list__label" for="task-1">Complete online Javascript course</label>
-        </li>
-
-
-        <li class="task-list__element"  >
-          <input type="checkbox" id="task-2" class="checkbox">
-          <label class="task-list__label for="task-2">Jog around the park 3x</label>
-        </li>
-
-         <li class="task-list__element"  >
-          <input type="checkbox" id="task-3" class="checkbox">
-          <label class="task-list__label for="task-3">10 minutes meditation</label>
-        </li>
-
-        <li class="task-list__element"  >
-          <input type="checkbox" id="task-4" class="checkbox">
-          <label class="task-list__label for="task-4">Read for 1 hour</label>
-        </li>
-
-
-        <li class="task-list__element"  >
-          <input type="checkbox" id="task-5" class="checkbox">
-          <label class="task-list__label for="task-5">Pick up groceries</label>
-        </li>
-
-         <li class="task-list__element"  >
-          <input type="checkbox" id="task-6" class="checkbox">
-          <label class="task-list__label for="task-6">Complete Todo App on frontend mentor</label>
-        </li>
-
+     
         <li class="task-list__element summary">
-          <p class="summary__items">5 items left</p>
-          <p class="summary__clear">Clear Completed</p>
+          <p class="summary__items"> <span class="summary__items--count"></span> items left</p>
+          <button class="summary__clear">Clear Completed</button>
         </li>
+      
+   
       </ul>
     </section>
 

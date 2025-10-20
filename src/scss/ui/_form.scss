@@ -74,9 +74,7 @@ body{
     &__items{
         
     }
-    &__clear{
-
-    }
+ 
 }
 
 .filters{
@@ -103,4 +101,21 @@ body{
     margin: 7rem 0;
     text-align: center;
     color: v.$darkGrayishBlue;
+}
+.summary{
+       background-color:hsl(235, 24%, 19%);
+       margin-top: -2rem;
+}
+
+.summary__clear{
+    background: none;
+    border: none;
+    color: v.$veryDarkGrayishBlue;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover{
+        color: v.$lightGrayishBlue;
+    }
+    
 }

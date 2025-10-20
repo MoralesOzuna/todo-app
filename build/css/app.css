@@ -404,6 +404,17 @@ html {
   box-sizing: inherit;
 }
 
+.task-form__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 .background {
   background-image: image-set(url("../images/bg-mobile-dark.jpg") type("image/jpeg"), url("../images/bg-mobile-dark.webp") type("image/webp"), url("../src/images/bg-mobile-dark.jpg") type("image/jpeg"));
   height: 27rem;
@@ -515,6 +526,22 @@ body {
   margin: 7rem 0;
   text-align: center;
   color: hsl(234, 11%, 52%);
+}
+
+.summary {
+  background-color: hsl(235, 24%, 19%);
+  margin-top: -2rem;
+}
+
+.summary__clear {
+  background: none;
+  border: none;
+  color: hsl(233, 14%, 35%);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.summary__clear:hover {
+  color: hsl(234, 39%, 85%);
 }
 
 @keyframes fadeInOut {
