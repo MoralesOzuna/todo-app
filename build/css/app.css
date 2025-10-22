@@ -571,14 +571,6 @@ body {
   position: relative;
 }
 
-.error {
-  background-color: hsl(235, 21%, 11%);
-}
-
-.errorText {
-  color: hsl(0, 0%, 98%);
-}
-
 .notification {
   position: absolute;
   margin: 0 auto;
@@ -590,7 +582,15 @@ body {
   z-index: 1000;
   padding: 2rem 1rem;
   opacity: 0.8;
-}
-.notification__text {
+  background-color: hsl(235, 21%, 11%);
+  color: hsl(0, 0%, 98%);
   text-align: center;
+}
+
+.notificationError {
+  background-color: hsl(0, 90%, 70%);
+}
+
+.textError {
+  color: hsl(0, 0%, 98%);
 }
