@@ -3,11 +3,15 @@ const form = document.querySelector('.task-form');
 const inputTask = document.querySelector('.task-form__input');
 const inputCheckbox = document.querySelector('.checkbox');
 
+const todoContainer = document.querySelector('.todo');
+let taskList;
+
 
 
 
 window.onload = () =>{
     crearDB();
+    getTasks();
 }
 
 
@@ -15,6 +19,7 @@ form.addEventListener('submit', (e) =>{
     e.preventDefault();
     taskValidation(inputTask.value, inputCheckbox.checked);
     form.reset();
+    getTasks();
 
 })
 
@@ -51,7 +56,7 @@ function createTask(task){
     }
     transaction.oncomplete = function(){
         sendAlert('task added', '');
-        getTasks();
+     
     }
 
 }
@@ -67,6 +72,15 @@ function getTasks(){
     }
 
     openConnection.onsuccess = function(){
+        //Agregamos padre UL al codigo (Solo una vez)
+        if(!document.querySelector('.task-list')){
+
+            taskList = document.createElement('UL');
+            taskList.classList.add('task-list');
+            todoContainer.insertBefore(taskList, document.querySelector('.summary') );
+        }
+
+
         //Referencia de la database abierta
         DB = openConnection.result;
 
@@ -82,9 +96,32 @@ function getTasks(){
             
             //si el cursor existe, continuas creando registros
             if(cursor){
-                //cursor.value es el objeto almacenado hasta indexed DB
+                //cursor.value nos entrega las propiedades del objeto
+                console.log(cursor.value); /* {task: 'Home', status: false, id: 1} */
 
-                console.log(cursor.value);
+                /* Object destructuring para obtener los resultados de cursor.value y guardarlos en variabes*/
+                const {task, status, id} = cursor.value;
+
+                const taskListElement = document.createElement('LI');
+                taskListElement.classList.add('task-list__element');
+
+                const checkbox = document.createElement('INPUT');
+                checkbox.type = "checkbox";
+                checkbox.id = id;
+                checkbox.classList.add('checkbox');
+
+                const label = document.createElement('LABEL');
+                label.classList.add('task-list__label');
+                label.htmlFor = id;
+                label.textContent = task;
+
+                taskList.appendChild(taskListElement);
+                taskListElement.appendChild(checkbox);
+                taskListElement.appendChild(label);
+
+                cursor.continue();
+            } else{
+                sendAlert('All Data Loaded')
             }
         }
     }
