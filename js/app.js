@@ -5,13 +5,21 @@ const inputCheckbox = document.querySelector('.checkbox');
 
 const todoContainer = document.querySelector('.todo');
 let taskList;
+ let total = 0;
 
+
+/* 
+PENDIENTE DE HACER QUE AL MARCAR UN CHECKBOX SE GUARDA EN LA BD
+CONTAR LOS ELEMENTOS.
+ELIMINARLOS
+
+*/
 
 
 
 window.onload = () =>{
     crearDB();
-    getTasks();
+ 
 }
 
 
@@ -19,7 +27,7 @@ form.addEventListener('submit', (e) =>{
     e.preventDefault();
     taskValidation(inputTask.value, inputCheckbox.checked);
     form.reset();
-    getTasks();
+
 
 })
 
@@ -56,6 +64,11 @@ function createTask(task){
     }
     transaction.oncomplete = function(){
         sendAlert('task added', '');
+       
+        window.location.reload();
+ 
+        
+      
      
     }
 
@@ -66,7 +79,6 @@ function getTasks(){
     const openConnection = window.indexedDB.open('todoApp', 1);
 
     //si ocurre un error al abrir la DB
-
     openConnection.onerror = function(){
         sendAlert(`Something went wrong`, 'error')
     }
@@ -74,7 +86,6 @@ function getTasks(){
     openConnection.onsuccess = function(){
         //Agregamos padre UL al codigo (Solo una vez)
         if(!document.querySelector('.task-list')){
-
             taskList = document.createElement('UL');
             taskList.classList.add('task-list');
             todoContainer.insertBefore(taskList, document.querySelector('.summary') );
@@ -87,8 +98,6 @@ function getTasks(){
         //Creamos una transaction de solo lectura sobre el store
 
         const objectStore = DB.transaction('tasks').objectStore('tasks');
-
-
         objectStore.openCursor().onsuccess = function(e){
 
             //En pcoas palabras registros
@@ -96,11 +105,13 @@ function getTasks(){
             
             //si el cursor existe, continuas creando registros
             if(cursor){
-                //cursor.value nos entrega las propiedades del objeto
-                console.log(cursor.value); /* {task: 'Home', status: false, id: 1} */
-
+            
                 /* Object destructuring para obtener los resultados de cursor.value y guardarlos en variabes*/
                 const {task, status, id} = cursor.value;
+
+                /* if(document.querySelector('.task-list__element')){
+                    document.querySelector('.task-list__element').remove();
+                } */
 
                 const taskListElement = document.createElement('LI');
                 taskListElement.classList.add('task-list__element');
@@ -109,6 +120,14 @@ function getTasks(){
                 checkbox.type = "checkbox";
                 checkbox.id = id;
                 checkbox.classList.add('checkbox');
+
+                if(cursor.value.status){
+                    checkbox.checked = true;
+                    
+                } else{
+                    checkbox.checked = false
+                }
+
 
                 const label = document.createElement('LABEL');
                 label.classList.add('task-list__label');
@@ -120,10 +139,16 @@ function getTasks(){
                 taskListElement.appendChild(label);
 
                 cursor.continue();
+                
             } else{
-                sendAlert('All Data Loaded')
+                sendAlert('All Data Loaded');
+                        itemsCounter();
+                
+          
             }
         }
+
+        
     }
 }
 
@@ -138,6 +163,7 @@ function crearDB(){
 
     crearDB.onsuccess = function(){
         DB = crearDB.result;
+        getTasks();
     }
 
     crearDB.onupgradeneeded = function(e){
@@ -176,5 +202,24 @@ function sendAlert(message, type){
         alertMessage.classList.add('textError');
 
     }
+
+}
+
+function itemsCounter(){
+    const allCheckboxs = document.querySelectorAll('.checkbox:not(#task-form)');
+   
+    
+    allCheckboxs.forEach(checkbox =>{
+        total++;
+        if(checkbox.checked){
+            total--;
+        }
+
+   
+    })
+ 
+    const itemsCount = document.querySelector('.summary__items--count');
+    itemsCount.textContent = total;
+
 
 }
