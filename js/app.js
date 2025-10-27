@@ -1,11 +1,17 @@
+
+
+
 let DB;
 const form = document.querySelector('.task-form');
 const inputTask = document.querySelector('.task-form__input');
 const inputCheckbox = document.querySelector('.checkbox');
 
+
 const todoContainer = document.querySelector('.todo');
 let taskList;
- let total = 0;
+let total = 0;
+
+const buttonClear = document.querySelector('.summary__clear');
 
 
 /* 
@@ -14,6 +20,8 @@ CONTAR LOS ELEMENTOS.
 ELIMINARLOS
 
 */
+
+
 
 
 
@@ -29,7 +37,60 @@ form.addEventListener('submit', (e) =>{
     form.reset();
 
 
+
+
+
+});
+
+
+buttonClear.addEventListener('click', () =>{
+    const taskListElement = document.querySelectorAll('.task-list__element:not(.summary)');
+
+    taskListElement.forEach( task =>{
+        if(task.firstChild.checked){
+            const transaction = DB.transaction(['tasks'], 'readwrite');
+            const objectStore = transaction.objectStore('tasks');
+            const request = objectStore.get(Number(task.firstChild.id));
+
+            request.onsuccess = (e) =>{
+                const data = e.target.result;
+                objectStore.delete(data.id);
+                task.remove();
+                sendAlert('Task Removed')
+            }
+
+            request.onerror = function(){
+                sendAlert('Something went wrong', 'error');
+            }
+
+             /*   const transaction = DB.transaction(['tasks'], 'readwrite');
+        const objectStore = transaction.objectStore('tasks');
+        const request = objectStore.get(idNumber);
+
+         request.onsuccess = function(e){
+            const data = e.target.result;
+            data.status = !data.status;
+
+            const updateRequest = objectStore.put(data);
+
+            updateRequest.onsuccess = () =>{
+                sendAlert('Task Updated');
+                itemsCounter();
+            }
+            updateRequest.onerror = () =>{
+                sendAlert('Something went wrong', 'error');
+            }
+        }
+    
+        request.onerror = function(){
+            sendAlert('Cannot get the edition')
+        } */
+            console.log(task.firstChild.id);
+        }
+       
+    })
 })
+
 
 
 function taskValidation(task, status){
@@ -100,7 +161,7 @@ function getTasks(){
         const objectStore = DB.transaction('tasks').objectStore('tasks');
         objectStore.openCursor().onsuccess = function(e){
 
-            //En pcoas palabras registros
+            //En pocas palabras registros de la db
             const cursor = e.target.result;
             
             //si el cursor existe, continuas creando registros
@@ -142,14 +203,53 @@ function getTasks(){
                 
             } else{
                 sendAlert('All Data Loaded');
-                        itemsCounter();
-                
+                itemsCounter();
+                taskList.addEventListener('change', toggleTaskStatus)
+            
           
             }
         }
 
         
     }
+}
+
+function toggleTaskStatus(e){
+    if(e.target.matches('.checkbox')){
+        const idNumber = Number(e.target.id);
+        /* console.log(e.target); */
+
+
+
+        const transaction = DB.transaction(['tasks'], 'readwrite');
+        const objectStore = transaction.objectStore('tasks');
+        const request = objectStore.get(idNumber);
+
+         request.onsuccess = function(e){
+            const data = e.target.result;
+            data.status = !data.status;
+
+            const updateRequest = objectStore.put(data);
+
+            updateRequest.onsuccess = () =>{
+                sendAlert('Task Updated');
+                itemsCounter();
+            }
+            updateRequest.onerror = () =>{
+                sendAlert('Something went wrong', 'error');
+            }
+        }
+    
+        request.onerror = function(){
+            sendAlert('Cannot get the edition')
+        }
+
+       
+
+
+}
+
+
 }
 
 
@@ -206,7 +306,9 @@ function sendAlert(message, type){
 }
 
 function itemsCounter(){
+    total = 0;
     const allCheckboxs = document.querySelectorAll('.checkbox:not(#task-form)');
+    
    
     
     allCheckboxs.forEach(checkbox =>{
